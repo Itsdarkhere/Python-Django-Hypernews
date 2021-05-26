@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        {% load static %}
+        <link rel="stylesheet" target="_blank" href="{% static 'css/base.css' %}">
+    </head>
+    <body>
+        <h2>Hyper news</h2>
+        <form action="" method="get">
+            <input name="q">
+            <button type="submit"></button>
+        </form>
+        {% regroup data|dictsortreversed:"created" by created|slice:":-9" as news_list %}
+        {% if search_header != '' %}
+            <h4>{{ search_header }}</h4>
+        {% endif %}
+        {% for article in news_list %}
+            <h4>{{ article.grouper }}</h4>
+            <ul>
+                {% for list in article.list %}
+                 <li>
+                    <a target="_blank" href="/news/{{ list.link }}/">{{ list.title }}</a>
+                 </li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+        <a target="_blank" href="/news/create/">Create an article</a>
+    </body>
+</html>
